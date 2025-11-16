@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResources extends JsonResource
 {
+    
     /**
      * Transform the resource into an array.
      *

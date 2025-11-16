@@ -13,9 +13,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return PostResources::collection(Post::all());
+        $user = $request->user();
+        $posts = PostResources::collection($user->posts()->paginate(15));
+        return PostResources::collection($posts);
     }
 
     /**
@@ -25,7 +27,7 @@ class PostController extends Controller
     {
         $data = $request->validated();
         //  return $data;
-        $data['author_id'] = 1;
+        $data['author_id'] = $request->user()->id;
         $post = Post::create($data);
         return response()->json(new PostResources($post), 201);
     }
@@ -36,7 +38,8 @@ class PostController extends Controller
     public function show(Post $post)
     {
 
-        return response()->json(new PostResources($post));
+        
+        return new PostResources($post);
     }
 
     /**
